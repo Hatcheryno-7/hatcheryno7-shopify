@@ -1,0 +1,7 @@
+development:
+  password: shptka_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  theme_id: "XXXXX"
+  store: your-store-name.myshopify.com
+  ignore_files:
+    - "*.git/*"
+    - "*.DS_Store" 

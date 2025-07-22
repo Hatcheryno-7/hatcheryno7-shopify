@@ -1,0 +1,114 @@
+{% assign video_opacity = section.settings.video_opacity | divided_by: 100.0 %}
+
+<section id="home" class="relative w-full h-screen overflow-hidden flex flex-col items-center justify-center p-0 m-0">
+  {%- if section.settings.background_video != blank -%}
+    <div class="absolute inset-0 z-0 w-full h-full">
+      <video autoplay loop muted playsinline class="w-full h-full object-cover bg-black" style="opacity: {{ video_opacity }};">
+        <source src="{{ section.settings.background_video }}" type="video/mp4">
+      </video>
+    </div>
+  {%- endif -%}
+
+  <div class="container mx-auto px-0 relative z-10 flex flex-col items-center justify-center h-full">
+    <div class="text-center">
+      <h1 class="text-6xl md:text-9xl mb-8 text-glow font-extrabold">
+        <div class="flex justify-center items-baseline gap-4">
+          {%- if section.settings.title_prefix != blank -%}
+            <span class="text-hatchery-mint font-extralight text-4xl md:text-6xl">{{ section.settings.title_prefix }}</span>
+          {%- endif -%}
+          {%- if section.settings.title != blank -%}
+            <span class="text-hatchery-light font-extralight text-6xl md:text-8xl">{{ section.settings.title }}</span>
+          {%- endif -%}
+        </div>
+      </h1>
+      
+      <div class="flex flex-col items-center mt-8">
+        {%- if section.settings.button_image != blank -%}
+          <a href="{{ section.settings.button_link }}" class="block">
+            <img
+              src="{{ section.settings.button_image | img_url: 'master' }}"
+              alt="{{ section.settings.button_text | escape }}"
+              class="h-44 w-auto cursor-pointer transition-transform duration-300 hover:scale-110 rounded-full"
+              loading="eager"
+            >
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_scroll_indicator -%}
+        <div class="flex justify-center mt-2 animate-bounce">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-hatchery-mint h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-hatchery-mint/30 to-transparent"></div>
+  <div class="absolute bottom-2 left-0 w-full h-px bg-gradient-to-r from-transparent via-hatchery-mint/20 to-transparent"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_prefix",
+      "label": "Title Prefix",
+      "default": "HATCHERY"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "no.7"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "button_image",
+      "label": "Button Image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Alt Text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "video_url",
+      "id": "background_video",
+      "label": "Background Video",
+      "accept": ["mp4"]
+    },
+    {
+      "type": "range",
+      "id": "video_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Video Opacity",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show Scroll Indicator",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %} 
