@@ -1,0 +1,327 @@
+{%- style -%}
+  @keyframes drawCircle {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes slowZoom {
+    0% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-slow-zoom {
+    animation: slowZoom 4s ease-out forwards;
+  }
+{%- endstyle -%}
+
+<section id="products" class="py-20 relative">
+  {%- if section.settings.background_image != blank -%}
+    <div class="absolute inset-0 opacity-20">
+      <img 
+        src="{{ section.settings.background_image | img_url: 'master' }}"
+        alt="Laboratory background"
+        class="w-full h-full object-cover"
+      >
+      <div class="absolute inset-0 bg-hatchery-dark/80"></div>
+    </div>
+  {%- endif -%}
+  
+  <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-hatchery-mint/30 to-transparent z-10"></div>
+  
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-glow mb-4">
+        <span class="text-hatchery-mint">{{ section.settings.title_prefix }}</span> {{ section.settings.title }}
+      </h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="text-hatchery-light/70 max-w-2xl mx-auto">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+    </div>
+    
+    {%- if section.settings.show_filters -%}
+      <div class="flex justify-center space-x-2 md:space-x-6 mb-12">
+        {%- for filter in section.settings.filter_options -%}
+          <button
+            class="px-4 py-2 font-orbitron text-xs md:text-sm tracking-wide transition-all {% if forloop.first %}bg-hatchery-mint/20 text-hatchery-mint border-b-2 border-hatchery-mint{% else %}bg-transparent text-hatchery-light/60 hover:text-hatchery-light{% endif %}"
+          >
+            {{ filter }}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {%- for block in section.blocks -%}
+        <div class="sci-fi-card flex flex-col h-full" {{ block.shopify_attributes }}>
+          <div class="relative h-48 overflow-hidden product-slideshow" 
+               data-images="{{ block.settings.product_images | json }}"
+               data-special-zoom="{{ block.settings.enable_special_zoom }}"
+               data-zoom-position="{{ block.settings.zoom_position }}"
+               data-show-circle="{{ block.settings.show_circle_animation }}">
+            <div class="absolute inset-0 bg-hatchery-mint/10"></div>
+            
+            {%- for image in block.settings.product_images -%}
+              <img 
+                src="{{ image | img_url: 'master' }}"
+                alt="Product view {{ forloop.index }}"
+                class="w-full h-full object-contain transition-all duration-1000 absolute inset-0 {% if forloop.first %}opacity-100{% else %}opacity-0{% endif %}"
+                loading="lazy"
+              >
+            {%- endfor -%}
+
+            <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm border border-hatchery-mint/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-20">
+              <svg class="text-hatchery-mint h-5 w-5 animate-pulse hover:animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+
+            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm border border-hatchery-mint/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-20">
+              <svg class="text-hatchery-mint h-5 w-5 animate-pulse hover:animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
+            <div class="absolute top-0 right-0 p-2 z-10">
+              <span class="bg-hatchery-mint/20 text-hatchery-mint font-orbitron text-sm px-4 py-1 rounded-full shadow-md">
+                {{ block.settings.price | money }}
+              </span>
+            </div>
+
+            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1 z-10">
+              {%- for image in block.settings.product_images -%}
+                <div class="w-2 h-2 rounded-full {% if forloop.first %}bg-hatchery-mint{% else %}bg-hatchery-mint/30{% endif %}"></div>
+              {%- endfor -%}
+            </div>
+          </div>
+          
+          <div class="p-6 flex flex-col flex-grow">
+            <h3 class="font-orbitron text-lg text-hatchery-mint mb-2">{{ block.settings.title }}</h3>
+            <p class="text-hatchery-light/70 text-sm mb-4 flex-grow">{{ block.settings.description }}</p>
+            <button class="bg-hatchery-mint/20 hover:bg-hatchery-mint/30 border border-hatchery-mint/60 
+                          hover:border-hatchery-mint text-hatchery-mint text-sm py-3 px-4 rounded-md 
+                          transition-all duration-300 font-orbitron tracking-wider hover:scale-105
+                          shadow-lg hover:shadow-hatchery-mint/20">
+              {{ 'products.product.add_to_cart' | t }}
+            </button>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  
+  <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+    <div class="relative">
+      <svg class="text-hatchery-mint/20 h-16 w-16 animate-pulse-slow" viewBox="0 0 24 24" fill="none">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+      <svg class="text-hatchery-mint/30 h-12 w-12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_prefix",
+      "label": "Title Prefix",
+      "default": "LABORATORY"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "SPECIMENS"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Each creation is meticulously designed, tested, and 3D-printed to exacting specifications. Discover our current collection of available specimens."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show Category Filters",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "filter_options",
+      "label": "Filter Options (one per line)",
+      "default": "ALL PRODUCTS\nFLEXI-DRAGONS\nINVENTIONS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Product Title",
+          "default": "Product Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Product Description"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Price",
+          "default": 29.99
+        },
+        {
+          "type": "image_picker",
+          "id": "product_images",
+          "label": "Product Images",
+          "info": "Add multiple images for slideshow"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_special_zoom",
+          "label": "Enable Special Zoom Effect",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "zoom_position",
+          "label": "Zoom Position",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "top-right",
+              "label": "Top Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_circle_animation",
+          "label": "Show Circle Animation",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products",
+      "blocks": [
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% javascript %}
+document.addEventListener('DOMContentLoaded', function() {
+  const slideshows = document.querySelectorAll('.product-slideshow');
+  
+  slideshows.forEach(slideshow => {
+    let currentIndex = 0;
+    const images = slideshow.querySelectorAll('img');
+    const dots = slideshow.querySelectorAll('.rounded-full');
+    const prevButton = slideshow.querySelector('button:first-of-type');
+    const nextButton = slideshow.querySelector('button:last-of-type');
+    const specialZoom = slideshow.dataset.specialZoom === 'true';
+    const zoomPosition = slideshow.dataset.zoomPosition;
+    const showCircle = slideshow.dataset.showCircle === 'true';
+    
+    function showImage(index) {
+      images.forEach((img, i) => {
+        img.style.opacity = i === index ? '1' : '0';
+        if (i === index) {
+          if (specialZoom && i === images.length - 1) {
+            img.style.transform = zoomPosition === 'top-right' 
+              ? 'scale(2.5) translateX(8px)' 
+              : 'scale(1.5)';
+            img.style.transformOrigin = zoomPosition === 'top-right'
+              ? 'top right'
+              : 'center';
+          } else {
+            img.classList.add('animate-slow-zoom');
+          }
+        } else {
+          img.style.transform = '';
+          img.classList.remove('animate-slow-zoom');
+        }
+      });
+      
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-hatchery-mint', i === index);
+        dot.classList.toggle('bg-hatchery-mint/30', i !== index);
+      });
+    }
+    
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    }
+    
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    }
+    
+    // Auto advance every 3 seconds (6 seconds for last slide)
+    let interval = setInterval(() => {
+      if (currentIndex === images.length - 1) {
+        setTimeout(nextImage, 3000);
+      } else {
+        nextImage();
+      }
+    }, 3000);
+    
+    // Event listeners
+    prevButton.addEventListener('click', () => {
+      clearInterval(interval);
+      prevImage();
+    });
+    
+    nextButton.addEventListener('click', () => {
+      clearInterval(interval);
+      nextImage();
+    });
+    
+    // Touch events for mobile
+    let touchStart = 0;
+    let touchEnd = 0;
+    
+    slideshow.addEventListener('touchstart', e => {
+      touchStart = e.changedTouches[0].screenX;
+    });
+    
+    slideshow.addEventListener('touchend', e => {
+      touchEnd = e.changedTouches[0].screenX;
+      if (touchStart - touchEnd > 50) {
+        nextImage();
+      } else if (touchStart - touchEnd < -50) {
+        prevImage();
+      }
+    });
+  });
+});
+{% endjavascript %} 

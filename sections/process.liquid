@@ -1,0 +1,107 @@
+<section id="process" class="py-20 relative">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-glow mb-4">
+        <span class="text-hatchery-mint">{{ section.settings.title_prefix }}</span> {{ section.settings.title }}
+      </h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="text-hatchery-light/70 max-w-2xl mx-auto">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {%- for block in section.blocks -%}
+        <div class="relative" {{ block.shopify_attributes }}>
+          {%- if block.settings.background_video != blank -%}
+            <video 
+              class="absolute inset-0 w-full h-full object-cover rounded-lg opacity-20"
+              autoplay 
+              loop 
+              muted 
+              playsinline
+            >
+              <source src="{{ block.settings.background_video }}" type="video/mp4">
+            </video>
+          {%- endif -%}
+          
+          <div class="relative bg-hatchery-dark/80 p-8 rounded-lg border border-hatchery-mint/30 backdrop-blur-sm">
+            <div class="flex items-center mb-4">
+              <span class="text-4xl font-bold text-hatchery-mint mr-4">{{ forloop.index }}</span>
+              <h3 class="text-xl font-orbitron text-hatchery-mint">{{ block.settings.title }}</h3>
+            </div>
+            <p class="text-hatchery-light/70">{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_prefix",
+      "label": "Title Prefix",
+      "default": "THE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "PROCESS"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover how we bring our creations to life through our meticulous process."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step Description"
+        },
+        {
+          "type": "video_url",
+          "id": "background_video",
+          "label": "Background Video",
+          "accept": ["mp4"]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process",
+      "blocks": [
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %} 

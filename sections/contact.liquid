@@ -1,0 +1,118 @@
+<section id="contact" class="py-20 relative">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-glow mb-4">
+        <span class="text-hatchery-mint">{{ section.settings.title_prefix }}</span> {{ section.settings.title }}
+      </h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-hatchery-dark/80 p-8 rounded-lg border border-hatchery-mint/30 backdrop-blur-sm">
+        <div class="prose prose-invert prose-hatchery max-w-none">
+          {{ section.settings.message }}
+        </div>
+        
+        {%- if section.settings.show_contact_form -%}
+          <form class="mt-8 space-y-6" action="/contact" method="post">
+            <input type="hidden" name="form_type" value="contact" />
+            <input type="hidden" name="utf8" value="✓" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="contact-name" class="block text-sm font-orbitron text-hatchery-mint mb-2">Name</label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="contact[name]"
+                  class="w-full px-4 py-2 bg-hatchery-dark/50 border border-hatchery-mint/30 rounded-md focus:border-hatchery-mint focus:ring focus:ring-hatchery-mint/20 focus:outline-none text-hatchery-light"
+                  required
+                >
+              </div>
+
+              <div>
+                <label for="contact-email" class="block text-sm font-orbitron text-hatchery-mint mb-2">Email</label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="contact[email]"
+                  class="w-full px-4 py-2 bg-hatchery-dark/50 border border-hatchery-mint/30 rounded-md focus:border-hatchery-mint focus:ring focus:ring-hatchery-mint/20 focus:outline-none text-hatchery-light"
+                  required
+                >
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block text-sm font-orbitron text-hatchery-mint mb-2">Message</label>
+              <textarea
+                id="contact-message"
+                name="contact[body]"
+                rows="6"
+                class="w-full px-4 py-2 bg-hatchery-dark/50 border border-hatchery-mint/30 rounded-md focus:border-hatchery-mint focus:ring focus:ring-hatchery-mint/20 focus:outline-none text-hatchery-light resize-none"
+                required
+              ></textarea>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                class="inline-flex items-center px-6 py-3 border border-hatchery-mint text-base font-orbitron rounded-md text-hatchery-mint bg-hatchery-dark hover:bg-hatchery-mint/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hatchery-mint/50 transition-colors duration-200"
+              >
+                Send Message
+              </button>
+            </div>
+          </form>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_prefix",
+      "label": "Title Prefix",
+      "default": "GET IN"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "TOUCH"
+    },
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Contact Message",
+      "default": "<p>Hey there, fellow creative soul!</p><p>So, you've got a wild idea swirling around in that noggin of yours, and you're itching to see it come to life in glorious 3D? - Well, you've landed in the right place!</p><p>Here's the scoop: if you're dreaming of a custom 3D-printed item that's as unique as a snowflake in a blizzard, we're all ears! Just shoot us a message with your idea, and we'll see if we can whip up something that'll knock your socks off! (Or at least make you consider wearing funky socks instead.)</p><p>Got a question that's been tickling your brain like a feather duster? Don't be shy! I love questions more than my cat Puff loves a sunny spot on the floor. Whether it's about our 3D printing process, materials, or how to make the perfect cup of coffee (okay, maybe not that last one), we're here to help! Just drop us a line.</p><p>Now, let's talk about the nitty-gritty of custom orders. We're all about that eco-friendly life, so rest assured that your custom creation will be crafted with materials that are kinder to Mother Earth than a hug from a tree. (And trust us, trees love hugs!)</p><p>Once you've sent us your idea, we'll discuss the details, like size, color, and any other quirks you want to include. (Maybe you want a 3D-printed cat that doubles as a paperweight? We're game!)</p><p>So, whether you're looking to create a one-of-a-kind masterpiece or just have a burning question that needs extinguishing, we're here for you! Let's make some magic happen, one 3D print at a time. (And remember, the only limit is your imagination—well, that and the laws of physics, but who's counting?)</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_form",
+      "label": "Show Contact Form",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.prose-hatchery {
+  --tw-prose-invert-body: theme('colors.hatchery-light');
+  --tw-prose-invert-headings: theme('colors.hatchery-mint');
+  --tw-prose-invert-links: theme('colors.hatchery-mint');
+}
+
+.prose-hatchery p {
+  margin-bottom: 1.5em;
+  line-height: 1.75;
+}
+{% endstylesheet %} 
